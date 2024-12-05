@@ -11,11 +11,11 @@ const router = createRouter().openapi(
     method: "get",
     path: "/",
     responses: {
-      [HttpStatusCodes.OK]: jsonContent(createMessageObjectSchema("AI Health CMS"), "AI Health CMS"),
+      [HttpStatusCodes.OK]: jsonContent(createMessageObjectSchema("AI Health CMS API"), "AI Health CMS API"),
     },
   }),
   (c) => {
-    return c.json({ message: "AI Health CMS index" }, HttpStatusCodes.OK);
+    return c.json({ message: "AI Health CMS API" }, HttpStatusCodes.OK);
   },
 );
 

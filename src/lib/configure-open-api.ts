@@ -9,7 +9,7 @@ export default function configureOpenAPI(app: AppOpenApi) {
     openapi: "3.0.0",
     info: {
       version: packageJSON.version,
-      title: "AHH API",
+      title: "AI HEALTH CMS API",
     },
   });
 
