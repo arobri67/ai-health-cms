@@ -62,14 +62,14 @@ export const createMany = createRoute({
   request: {
     body: jsonContentRequired(
       z.array(insertCompaniesModel),
-      "The companies to create",
+      "Companies to create",
     ),
   },
   tags,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
       z.array(selectCompaniesModel),
-      "The created of companies ",
+      "The created  companies ",
     ),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(z.array(insertCompaniesModel)), "The validation errors"),
   },
