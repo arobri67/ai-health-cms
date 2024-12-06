@@ -6,7 +6,7 @@ import type { AppRouteHandler } from "@/lib/types";
 import db from "@/db";
 import { Category, Company } from "@/db/models";
 
-import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from "./companies.routes";
+import type { CreateManyRoute, CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from "./companies.routes";
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {
   await db();
@@ -42,6 +42,18 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
   }
 
   return c.json(savedCompany, HttpStatusCodes.OK);
+};
+
+export const createMany: AppRouteHandler<CreateManyRoute> = async (c) => {
+  await db();
+  const companyData = c.req.valid("json");
+  const newCompanies = await Company.insertMany(companyData);
+  for (const company of newCompanies) {
+    for (const category of company.category) {
+      await Category.findOneAndUpdate({ name: category }, { $addToSet: { companies: company._id } }, { upsert: true });
+    }
+  }
+  return c.json(newCompanies, HttpStatusCodes.OK);
 };
 
 export const patch: AppRouteHandler<PatchRoute> = async (c) => {

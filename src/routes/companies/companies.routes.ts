@@ -56,6 +56,25 @@ export const create = createRoute({
   },
 });
 
+export const createMany = createRoute({
+  path: "/companies/many",
+  method: "post",
+  request: {
+    body: jsonContentRequired(
+      z.array(insertCompaniesModel),
+      "The companies to create",
+    ),
+  },
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      z.array(selectCompaniesModel),
+      "The created of companies ",
+    ),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(z.array(insertCompaniesModel)), "The validation errors"),
+  },
+});
+
 export const patch = createRoute({
   path: "/companies/{id}",
   method: "patch",
@@ -105,5 +124,6 @@ export const remove = createRoute({
 export type ListRoute = typeof list;
 export type GetOneRoute = typeof getOne;
 export type CreateRoute = typeof create;
+export type CreateManyRoute = typeof createMany;
 export type PatchRoute = typeof patch;
 export type RemoveRoute = typeof remove;
