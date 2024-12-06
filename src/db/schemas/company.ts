@@ -35,6 +35,7 @@ const selectCompaniesModel = insertCompaniesModel.extend({
   updatedAt: z.string(),
 });
 
-const patchCompaniesModel = insertCompaniesModel.partial();
+// Patch company model for validation
+const patchCompaniesModel = insertCompaniesModel.omit({ category: true }).partial();
 
 export { insertCompaniesModel, patchCompaniesModel, selectCompaniesModel };

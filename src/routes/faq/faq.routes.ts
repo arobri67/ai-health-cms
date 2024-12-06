@@ -3,79 +3,62 @@ import * as HttpStatusCodes from "stoker/http-status-codes";
 import { jsonContent, jsonContentOneOf, jsonContentRequired } from "stoker/openapi/helpers";
 import { createErrorSchema } from "stoker/openapi/schemas";
 
-import { insertCompaniesModel, patchCompaniesModel, selectCompaniesModel } from "@/db/schemas";
+import { insertFaqModel, patchFaqModel, selectFaqModel } from "@/db/schemas/faq";
 import { MongoIdParamsSchema, notFoundSchema } from "@/lib/constants";
 
-const tags = ["companies"];
+const tags = ["faq"];
 
 export const list = createRoute({
-  path: "/companies",
+  path: "/faq",
   method: "get",
   tags,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(selectCompaniesModel),
-      "The list of companies",
+      z.array(selectFaqModel),
+      "The list of faq",
     ),
-  },
-});
-
-export const getOne = createRoute({
-  path: "/companies/{id}",
-  method: "get",
-  request: {
-    params: MongoIdParamsSchema,
-  },
-  tags,
-  responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      selectCompaniesModel,
-      "The selected company",
-    ),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, "Company not found"),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(MongoIdParamsSchema), "Invalid id error"),
   },
 });
 
 export const create = createRoute({
-  path: "/companies",
+  path: "/faq",
   method: "post",
   request: {
     body: jsonContentRequired(
-      insertCompaniesModel,
-      "The company to create",
+      insertFaqModel,
+      "The faq to create",
     ),
   },
   tags,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      selectCompaniesModel,
-      "The created of company ",
+      selectFaqModel,
+      "The created of faq ",
     ),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(insertCompaniesModel), "The validation errors"),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(insertFaqModel), "The validation errors"),
   },
 });
 
 export const patch = createRoute({
-  path: "/companies/{id}",
+  path: "/faq/{id}",
   method: "patch",
   request: {
     params: MongoIdParamsSchema,
     body: jsonContentRequired(
-      patchCompaniesModel,
-      "The company updates",
+      patchFaqModel,
+      "The faq updates",
     ),
   },
   tags,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      selectCompaniesModel,
-      "The updated company ",
+      selectFaqModel,
+      "The updated faq ",
     ),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, "Company not found"),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, "Faq not found"),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContentOneOf(
       [
-        createErrorSchema(patchCompaniesModel),
+        createErrorSchema(patchFaqModel),
         createErrorSchema(MongoIdParamsSchema),
       ],
       "The validation error(s)",
@@ -84,7 +67,7 @@ export const patch = createRoute({
 });
 
 export const remove = createRoute({
-  path: "/companies/{id}",
+  path: "/faq/{id}",
   method: "delete",
   request: {
     params: MongoIdParamsSchema,
@@ -92,9 +75,9 @@ export const remove = createRoute({
   tags,
   responses: {
     [HttpStatusCodes.NO_CONTENT]: {
-      description: "The company was deleted successfully",
+      description: "The faq was deleted successfully",
     },
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, "Company not found"),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, "Faq not found"),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(MongoIdParamsSchema),
       "Invalid id error",
@@ -103,7 +86,6 @@ export const remove = createRoute({
 });
 
 export type ListRoute = typeof list;
-export type GetOneRoute = typeof getOne;
 export type CreateRoute = typeof create;
 export type PatchRoute = typeof patch;
 export type RemoveRoute = typeof remove;

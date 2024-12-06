@@ -17,6 +17,7 @@ export const FaqSchema: Schema = new Schema(
       type: String,
       enum: ["item-1", "item-2", "item-3", "item-4", "item-5", "item-6"],
       required: true,
+      unique: true,
     },
     question: { type: String, required: true },
     answer: { type: String, required: true },
@@ -27,4 +28,4 @@ export const FaqSchema: Schema = new Schema(
 const Faq: Model<IFaq>
   = mongoose.models.Faq || mongoose.model<IFaq>("Faq", FaqSchema);
 
-export default Faq;
+export { Faq };
