@@ -15,10 +15,6 @@ export interface ICategory extends Document {
   createdAt: Date;
 }
 
-export interface ICategoryPopulated extends Omit<ICategory, "companies"> {
-  companies: ICompany[];
-}
-
 const CategorySchema: Schema = new Schema(
   {
     name: { type: String, required: true, unique: true },
@@ -33,16 +29,4 @@ const Category: Model<ICategory>
   = mongoose.models.Category
   || mongoose.model<ICategory>("Category", CategorySchema);
 
-export default Category;
-
-export const insertCategoryModel = z.object({
-  name: z.string(),
-  slug: z.string(),
-  description: z.string(),
-  companies: z.array(z.string()),
-});
-export const selectCategoryModel = insertCategoryModel.extend({
-  _id: z.string(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
-});
+export { Category };

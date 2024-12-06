@@ -1,7 +1,7 @@
 import type { AppRouteHandler } from "@/lib/types";
 
 import db from "@/db";
-import Category from "@/db/models/category";
+import { Category } from "@/db/models";
 
 import type { CreateRoute } from "./categories.routes";
 
