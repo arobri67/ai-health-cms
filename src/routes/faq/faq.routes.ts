@@ -38,6 +38,24 @@ export const create = createRoute({
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(insertFaqModel), "The validation errors"),
   },
 });
+export const createMany = createRoute({
+  path: "/faqs",
+  method: "post",
+  request: {
+    body: jsonContentRequired(
+      z.array(insertFaqModel),
+      "The faq to create",
+    ),
+  },
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      z.array(selectFaqModel),
+      "The created of faq ",
+    ),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(insertFaqModel), "The validation errors"),
+  },
+});
 
 export const patch = createRoute({
   path: "/faq/{id}",
@@ -87,5 +105,6 @@ export const remove = createRoute({
 
 export type ListRoute = typeof list;
 export type CreateRoute = typeof create;
+export type CreateManyRoute = typeof createMany;
 export type PatchRoute = typeof patch;
 export type RemoveRoute = typeof remove;

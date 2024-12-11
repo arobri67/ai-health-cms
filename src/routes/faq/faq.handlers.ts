@@ -6,7 +6,7 @@ import type { AppRouteHandler } from "@/lib/types";
 import db from "@/db";
 import { Faq } from "@/db/models";
 
-import type { CreateRoute, ListRoute, PatchRoute, RemoveRoute } from "./faq.routes";
+import type { CreateManyRoute, CreateRoute, ListRoute, PatchRoute, RemoveRoute } from "./faq.routes";
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {
   await db();
@@ -22,6 +22,13 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
   const savedFaq = await newFaq.save();
 
   return c.json(savedFaq, HttpStatusCodes.OK);
+};
+
+export const createMany: AppRouteHandler<CreateManyRoute> = async (c) => {
+  await db();
+  const faqData = c.req.valid("json");
+  const newFaq = await Faq.insertMany(faqData);
+  return c.json(newFaq, HttpStatusCodes.OK);
 };
 
 export const patch: AppRouteHandler<PatchRoute> = async (c) => {

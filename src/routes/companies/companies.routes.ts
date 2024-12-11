@@ -21,7 +21,7 @@ export const list = createRoute({
 });
 
 export const getOne = createRoute({
-  path: "/companies/{id}",
+  path: "/company/{id}",
   method: "get",
   request: {
     params: MongoIdParamsSchema,
@@ -38,7 +38,7 @@ export const getOne = createRoute({
 });
 
 export const create = createRoute({
-  path: "/companies",
+  path: "/company",
   method: "post",
   request: {
     body: jsonContentRequired(
@@ -57,7 +57,7 @@ export const create = createRoute({
 });
 
 export const createMany = createRoute({
-  path: "/companies/many",
+  path: "/companies",
   method: "post",
   request: {
     body: jsonContentRequired(
@@ -76,7 +76,7 @@ export const createMany = createRoute({
 });
 
 export const patch = createRoute({
-  path: "/companies/{id}",
+  path: "/company/{id}",
   method: "patch",
   request: {
     params: MongoIdParamsSchema,
@@ -103,7 +103,7 @@ export const patch = createRoute({
 });
 
 export const remove = createRoute({
-  path: "/companies/{id}",
+  path: "/company/{id}",
   method: "delete",
   request: {
     params: MongoIdParamsSchema,
